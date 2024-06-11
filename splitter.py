@@ -5,7 +5,7 @@ from langchain.docstore.document import Document
 
 def split_documents(docs):
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
+        chunk_size=200,
         chunk_overlap=0,
         length_function=len,
         is_separator_regex=False)

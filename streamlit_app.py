@@ -4,7 +4,7 @@ from langchain_community.embeddings import OpenAIEmbeddings
 
 from ensemble import ensemble_retriever_from_docs
 from full_chain import create_full_chain, ask_question
-from local_loader import load_txt_files
+from local_loader import load_pdf_files
 
 st.set_page_config(page_title="LangChain & Streamlit RAG")
 st.title("LangChain & Streamlit RAG")
@@ -12,7 +12,8 @@ st.title("LangChain & Streamlit RAG")
 
 def show_ui(qa, prompt_to_user="How may I help you?"):
     if "messages" not in st.session_state.keys():
-        st.session_state.messages = [{"role": "assistant", "content": prompt_to_user}]
+        st.session_state.messages = [
+            {"role": "assistant", "content": prompt_to_user}]
 
     # Display chat messages
     for message in st.session_state.messages:
@@ -37,8 +38,8 @@ def show_ui(qa, prompt_to_user="How may I help you?"):
 
 @st.cache_resource
 def get_retriever(openai_api_key=None):
-    docs = load_txt_files()
-    embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key, model="text-embedding-3-small")
+    docs = load_pdf_files()
+    embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key, model="text-embedding-3-large")
     return ensemble_retriever_from_docs(docs, embeddings=embeddings)
 
 
@@ -56,7 +57,8 @@ def get_secret_or_input(secret_key, secret_name, info_link=None):
         secret_value = st.secrets[secret_key]
     else:
         st.write(f"Please provide your {secret_name}")
-        secret_value = st.text_input(secret_name, key=f"input_{secret_key}", type="password")
+        secret_value = st.text_input(
+            secret_name, key=f"input_{secret_key}", type="password")
         if secret_value:
             st.session_state[secret_key] = secret_value
         if info_link:
@@ -86,8 +88,10 @@ def run():
         ready = False
 
     if ready:
-        chain = get_chain(openai_api_key=openai_api_key, huggingfacehub_api_token=huggingfacehub_api_token)
-        st.subheader("Ask me questions about this week's meal plan")
+        chain = get_chain(openai_api_key=openai_api_key,
+                          huggingfacehub_api_token=huggingfacehub_api_token)
+        st.subheader(
+            "Ask me questions about the auto insurance policy booklet!")
         show_ui(chain, "What would you like to know?")
     else:
         st.stop()
