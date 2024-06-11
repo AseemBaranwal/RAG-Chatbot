@@ -88,7 +88,7 @@ python ensemble.py
 
 ## Usage
 
-As more files are uploaded to the data
+As more files are uploaded to the `data` folder (current compatibility: PDF format ONLY), the data is indexed and upon running, a pipeline is built that creates the embeddings for the given documents. In addition to this, the document can be viewed from the `browse data` tab inside the web application.
 
 ## References
 
